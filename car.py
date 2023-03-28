@@ -115,7 +115,9 @@ class window(QMainWindow):
 
      def uploadCheck(self):
           fname = QFileDialog.getOpenFileName(self, 'Open file', 'c:\\',"Image files (*.png *.jpg *.jpeg *.bmp *.gif)")
-          print(fname[0])
+          print(fname)
+          if(fname[0]==''):
+               return
           frame=cv2.imread(fname[0])
           harcascade="carplate.xml"
           plate_cascade = cv2.CascadeClassifier(harcascade)
@@ -147,14 +149,15 @@ class window(QMainWindow):
      def add_data(self):
           if(self.numberplate==""):
                print(1)
-          mycursor = self.mydb.cursor()
-          sql = "INSERT INTO numberplate VALUES (%s)"
-          val=[self.numberplate]
-          mycursor.execute(sql,val)
-          self.mydb.commit()
-          msg = QMessageBox()
-          msg.setText("Data added")
-          retval = msg.exec_()
+          else:
+               mycursor = self.mydb.cursor()
+               sql = "INSERT INTO numberplate VALUES (%s)"
+               val=[self.numberplate]
+               mycursor.execute(sql,val)
+               self.mydb.commit()
+               msg = QMessageBox()
+               msg.setText("Data added")
+               retval = msg.exec_()
 
           
 
