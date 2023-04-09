@@ -82,7 +82,7 @@ class window(QMainWindow):
                           cv2.rectangle(frame, (x,y), (x+w, y+h), (0,255,0), 2)
                           cv2.putText(frame, "Number Plate", (x,y-5), cv2.FONT_HERSHEY_COMPLEX_SMALL, 1, (255, 0, 255), 2)
                           global img_roi
-                          img_roi = frame[y: y+h, x:x+w]
+                          img_roi = cv2.convertScaleAbs(frame[y: y+h, x:x+w], alpha=1, beta=20)
                           cv2.imshow("Number plate", img_roi)
           
             
@@ -130,6 +130,7 @@ class window(QMainWindow):
                img_roi=frame
           else:
                img_roi = frame[y: y+h, x:x+w]
+          img_roi = cv2.convertScaleAbs(frame[y: y+h, x:x+w], alpha=1, beta=20)
           reader = easyocr.Reader(['en'],gpu=True)
           result = reader.readtext(img_roi)
           print(result)
